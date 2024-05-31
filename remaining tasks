@@ -1,0 +1,6 @@
+1. to fix the issue with the restart button not working correctly with worm spawning, and to remove the canvas elements like the player, worms, map before restarting the game. 
+2. worms need to spawn in as soon as the start game button is clicked, and not as soon as the page opens.
+3. need to implement an option where the user can change the length of time for the game. 
+4. need to fix the issue where the sound "error.mp3" should be playing when the player misses a worm.
+5. before the due date, update the game wireframe and storyboard to match the final version.
+6. if I have time, change the life cycle of the worms to grow and shrink in size, and to respawn on the map in a different location. 

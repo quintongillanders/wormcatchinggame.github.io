@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./WormCatchingGame.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <title>Worm Catching Game</title>
+    
+    </head>
+    <body>
+        <header>
+            <h1>Worm Catching Game!</h1>
+        </header>
+        <div id ="timer">
+            <p><span id="timer">0</span></p>
+        </div>
+        <div id = "setTimer">
+            <label for = "timeLimit">Welcome! Please enter the time limit: </label> 
+            <select id="timeLimit">
+            <option value="60">1 Minute</option>
+            <option value="120">2 Minutes</option>
+            <option value="180">3 Minutes</option>
+            <option value="240">4 Minutes</option>
+            <option value="300">5 Minutes</option>
+        </select>
+        </div>
+        <div id="buttonContainer">
+            <button id="startGame" class ="mybutton">Start Game</button>
+            <button id="restartGame" style="display:none;">Restart</button>
+            </div>
+            <div id="playerscore">
+                <h2>Score: <span id="score">0</span></h2>
+            </div>
+        </div>
+        <div id="instructions">
+            <h2>Game Description:</h2>
+               <p>Catch as many worms as you can within the time limit! The worms will appear as the circles moving in the sand.</p>
+                <ul>
+                    <li>W: Move Up</li>
+                    <li>S: Move Down</li>
+                    <li>A:Move Left</li>
+                    <li>D: Move Right</li>
+                    <li>Spacebar: Catch Worm</li>
+                </ul>
+        </div>
+        <audio id="gameMusic" src="SunshineBliss.mp3" loop></audio>
+        <audio id="gameSounds" src="startgame.mp3"></audio>
+        <audio id="missWorm" src="error.mp3"></audio> 
+        <audio id="gameOver" src="levelwin.mp3"></audio>
+        <audio id ="wormCaught" src="wormcaught.mp3"></audio>
+        <div class ="mybackground">
+            <div id ="character" src="character.gif"></div>
+        </div>
+        <canvas id="gameCanvas" width="800" height="800"></canvas>
+        <div id="timeUp" style="display: none;">Game Over! Play again?</div>
+        <script src="WormCatchingGame.js"></script>
+    
+    </body>
+</html>
