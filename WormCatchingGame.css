@@ -111,3 +111,13 @@ body {
     font-weight: bold;
 
 }
+
+#documentation {
+    position: absolute;
+    z-index: 1;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: larger;
+    font-weight: bold;
+    text-decoration: underline;
+}
+

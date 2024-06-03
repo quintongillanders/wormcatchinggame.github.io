@@ -42,6 +42,17 @@ function catchWorm() {
 
 }
 
+// this sound will play if the player misses a worm
+function missWorm() {
+    var audio =  document.getElementById('missWorm');
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play();
+    audio.volume = 0.2;
+
+}
+
+
 //when the timer runs out
 function gameOver() {
     var gameOver = document.getElementById('gameOver');
@@ -99,13 +110,13 @@ function startGame() {
         updateTimer();
         createWorms();
         wormSpawnInterval = setInterval(function () {
-            for (let i = 0; i < wormsPerSpawn; i++) {
+            for (let i = 1; i < wormsPerSpawn; i++) {
                 if (worms.length >= maxWorms) {
                      return;   
                 }
                 createWorms();
             }
-        }, 1000); // every second, 5 worms will spawn 
+        }, 1000); // every second, 5 worm will spawn 
 
     }
 
@@ -203,17 +214,16 @@ function player() {
         );
 
         character.init();
-        // const minWorms = 50;
-        // const maxWorms = 100;
-        // const numWorms = Math.floor(Math.random() * (maxWorms - minWorms + 1)) + minWorms;
+        const minWorms = 50;
+        const maxWorms = 100;
+        const numWorms = Math.floor(Math.random() * (maxWorms - minWorms + 1)) + minWorms;
 
         // Gradient for the worm fill. Colours need to be changed to your theme.
         // This will help for implementation: https://stackoverflow.com/questions/11916585/gradient-fill-relative-to-shape-position-not-canvas-position
         // Gradient will need to be added in your worm draw(), roughly line 530.
         gradient = ctx.createRadialGradient(0, 0, 1, 0, 0, maxRadius);
-        gradient.addColorStop(0, "red");
-        gradient.addColorStop(1, "green");
-
+        gradient.addColorStop(1, "orange");
+        gradient.addColorStop(1, "#f5e6ce");
         worms = [];
 
         document.addEventListener("keydown", doKeyDown);
@@ -453,6 +463,9 @@ function player() {
 
                                 }
                             }
+                            if (!caught) {
+                                missWorm();
+                            }
 
                         } else {
 
@@ -519,11 +532,10 @@ class SemiCircle extends GameObject {
     }
 
     draw(ctx) {
-        super.draw(ctx);
+        super.draw(ctx);        
         console.log("worm.draw");
-        ctx.fillStyle = this.isColliding ? '#ff8080' : '#F5E6CE'; // sand colour for the worms
-        //ctx.fillStyle = gradient; // hint
-        ctx.strokeStyle = '#00000';
+        ctx.fillStyle = this.gradient; 
+        ctx.strokeStyle = 'lightsand';
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, Math.PI, 2 * Math.PI);
@@ -542,6 +554,10 @@ class SemiCircle extends GameObject {
             if (this.radius >= this.maxRadius) {
                 // If max size, change lifecycle phase to shrinking mode
                 this.isGrowing = false;
+                //update gradient colours
+                this.gradient = ctx.createRadialGradient(0, 0, 1, 0, 0, this.maxRadius);
+                this.gradient.addColorStop(1, "#f5e6ce");
+                this.gradient.addColorStop(0, "beige");
             }
         }
         // If shrinking after growing
@@ -550,8 +566,14 @@ class SemiCircle extends GameObject {
             this.radius -= this.growthRate;
             // check if minimum size has been achieved
             if (this.radius <= this.minRadius) {
-                // if min size, change lifecycle phase to growing mode
+                this.radius = this.minRadius;
+                this.x - Math.random() * this.context.canvas.width;
+                this.y = Math.random() * this.context.canvas.height;
+                // if min size, change lifecycle phase to growing mode and respawn the worm at a random point on the canvas to start growing again
                 this.isGrowing = true;
+                this.gradient = ctx.createRadialGradient(0, 0, 1, 0, 0, this.maxRadius);
+                this.gradient.addColorStop(1, "beige");
+                this.gradient.addColorStop(0, "#f5e6ce");
             }
         }
 
@@ -568,8 +590,6 @@ class SemiCircle extends GameObject {
 
         this.x += this.vx * secondsPassed;
         this.y += this.vy * secondsPassed;
-
-
 
     }
 
@@ -599,7 +619,16 @@ function createWorms() {
     let vx = (Math.random() - 0.5) * 0.2; 
     let vy = (Math.random() - 0.5) * 0.2;
 
+    const initialColor= [244, 164, 96]; // Light sand colour
+    const finalColor = [245, 245, 220]; // Beige colour
+
     let worm = new SemiCircle(ctx, x, y, vx, vy, minRadius, growthRate);
+
+
+    worm.gradient = ctx.createRadialGradient(0, 0, 1, 0, 0, this.maxRadius);
+                worm.gradient.addColorStop(1, "#f5e6ce");
+                worm.gradient.addColorStop(0, "orange");
+
 
     worms.push(worm);
 }
